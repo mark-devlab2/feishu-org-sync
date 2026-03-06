@@ -375,11 +375,32 @@ services:
 - [ ] 错误处理和重试
 - [ ] 监控和告警
 
-### Phase 4: 测试和文档 (Week 4)
-- [ ] 单元测试
-- [ ] 集成测试
-- [ ] 完整文档
-- [ ] 部署脚本
+### Phase 4: 测试和文档 (Week 4) ✅
+- [x] 单元测试 - 36个测试用例覆盖核心功能
+- [x] 集成测试 - API 和 Webhook 集成测试
+- [x] 完整文档 - API.md, DEPLOY.md
+- [x] 部署脚本 - Docker Compose 配置
+
+## 🧪 测试
+
+### 运行测试
+
+```bash
+# 安装测试依赖
+pip install -r requirements.txt
+
+# 运行单元测试
+pytest tests/unit -v
+
+# 带覆盖率报告
+pytest tests/unit --cov=src --cov-report=html
+
+# 运行集成测试（需要启动服务）
+pytest tests/integration -v
+```
+
+### 测试要求
+**⚠️ 重要**: 所有测试必须通过后才能部署上线！
 
 ## 🤝 贡献指南
 
