@@ -136,5 +136,12 @@ class Database:
         self.engine.dispose()
 
 
-# 全局数据库实例
-db = Database()
+# 全局数据库实例（延迟初始化）
+db = None
+
+def get_db():
+    """获取数据库实例（延迟初始化）"""
+    global db
+    if db is None:
+        db = Database()
+    return db

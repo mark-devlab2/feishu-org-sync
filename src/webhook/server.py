@@ -11,8 +11,12 @@ from typing import Dict, Any
 from flask import Flask, request, jsonify
 from functools import wraps
 
-from ..db.models import Database, SyncLog
-from ..sync.sync_service import SyncService
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from db.models import Database, SyncLog
+from sync.sync_service import SyncService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

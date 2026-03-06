@@ -7,8 +7,12 @@ from datetime import datetime
 from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 
-from ..api.feishu_client import FeishuClient
-from ..db.models import Database, Department, User, SyncLog
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from api.feishu_client import FeishuClient
+from db.models import Database, Department, User, SyncLog
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
