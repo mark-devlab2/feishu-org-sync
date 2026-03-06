@@ -1,0 +1,52 @@
+# Feishu Organization Sync - Python Dependencies
+# 核心依赖
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+sqlite-utils==3.36
+
+# CLI Tools
+click==8.1.7
+rich==13.7.0
+typer==0.9.0
+
+# HTTP Client
+httpx==0.26.0
+aiohttp==3.9.1
+
+# Authentication & Token Management
+python-jose[cryptography]==3.3.0
+authlib==1.3.0
+
+# Scheduling
+apscheduler==3.10.4
+celery==5.3.6
+redis==5.0.1
+
+# Configuration
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+pyyaml==6.0.1
+
+# Utilities
+tenacity==8.2.3
+structlog==24.1.0
+python-dateutil==2.8.2
+
+# Development & Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3
+pytest-cov==4.1.0
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.5.3

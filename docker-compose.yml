@@ -1,0 +1,82 @@
+# Feishu Organization Sync Service
+# Docker Compose 部署配置
+
+version: '3.8'
+
+services:
+  # 主服务
+  feishu-sync:
+    build: .
+    container_name: feishu-org-sync
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # 数据持久化
+      - ./data:/app/data
+      # 配置文件
+      - ./config:/app/config:ro
+      # 日志
+      - ./logs:/app/logs
+    environment:
+      - FEISHU_APP_ID=${FEISHU_APP_ID}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET}
+      - DATABASE_URL=sqlite:///app/data/org_sync.db
+      - SYNC_INTERVAL_MINUTES=60
+      - LOG_LEVEL=INFO
+      - TZ=Asia/Shanghai
+    networks:
+      - feishu-sync-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Webhook 接收服务（独立部署，可选）
+  webhook:
+    build: .
+    container_name: feishu-webhook
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+    environment:
+      - FEISHU_APP_ID=${FEISHU_APP_ID}
+      - FEISHU_APP_SECRET=${FEISHU_APP_SECRET}
+      - DATABASE_URL=sqlite:///app/data/org_sync.db
+      - SERVICE_MODE=webhook
+      - WEBHOOK_PORT=8001
+      - LOG_LEVEL=INFO
+      - TZ=Asia/Shanghai
+    networks:
+      - feishu-sync-network
+    command: python -m src.webhook.server
+
+  # 定时同步任务（可选，使用 cron）
+  scheduler:
+    build: .
+    container_name: feishu-scheduler
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config:ro
+      - ./logs:/app/logs
+    environment:
+      - FEISHU_APP_ID=${FEISHU_APP_ID}
+      - FEISHU_APP_SECRET=${FEISHU_APP_ID}
+      - DATABASE_URL=sqlite:///app/data/org_sync.db
+      - SYNC_INTERVAL_MINUTES=60
+      - LOG_LEVEL=INFO
+      - TZ=Asia/Shanghai
+    networks:
+      - feishu-sync-network
+    command: python -m src.sync.scheduler
+
+networks:
+  feishu-sync-network:
+    driver: bridge
