@@ -17,3 +17,8 @@ click>=8.1.0
 
 # Utils
 python-dotenv>=1.0.0
+
+# Testing (仅开发需要)
+pytest>=7.4.0
+pytest-cov>=4.1.0
+responses>=0.24.0
